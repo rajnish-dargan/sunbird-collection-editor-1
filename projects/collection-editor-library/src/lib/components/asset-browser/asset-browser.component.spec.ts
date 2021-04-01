@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AssetBrowserComponent } from './asset-browser.component';
+import {mockData} from './asset-browser.component.spec.data';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import {mockData} from './asset-browser.component.spec.data';
 
 describe('AssetBrowserComponent', () => {
   let component: AssetBrowserComponent;
