@@ -44,12 +44,14 @@
 .multi-select-section-app {
   label {
     margin-bottom: 0.3rem !important;
+    z-index: inherit;
   }
 }
 .list-border {
   height: 2.8rem !important;
   ul {
     padding: 0 !important;
+    padding-right: 15px !important;
     span {
       font-weight: 500 !important;
       font-size: 0.785rem;
