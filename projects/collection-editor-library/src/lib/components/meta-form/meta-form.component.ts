@@ -25,6 +25,9 @@ export class MetaFormComponent implements OnInit, OnChanges, OnDestroy {
   private onComponentDestroy$ = new Subject<any>();
   public frameworkDetails: any = {};
   public formFieldProperties: any;
+  public additionalMetaData: any = {};
+  public showAppIcon = false;
+  public selectedNode: any;
   constructor(private editorService: EditorService, private treeService: TreeService,
               private frameworkService: FrameworkService, private helperService: HelperService,
               private configService: ConfigService) {
@@ -32,10 +35,20 @@ export class MetaFormComponent implements OnInit, OnChanges, OnDestroy {
                }
 
   ngOnChanges() {
-      this.fetchFrameWorkDetails();
+    this.fetchFrameWorkDetails();
+    this.setAppIconVisibility();
   }
 
   ngOnInit() {
+    this.setAppIconVisibility();
+    if (this.showAppIcon && this.selectedNode.data ) {
+      this.additionalMetaData.appIcon = _.get(this.selectedNode.data.metadata, 'appIcon');
+    }
+  }
+
+  setAppIconVisibility() {
+    this.selectedNode = this.treeService.getActiveNode();
+    this.showAppIcon = this.selectedNode && this.selectedNode.data && this.selectedNode.data.root ? true : false;
   }
 
   fetchFrameWorkDetails() {
@@ -213,9 +226,22 @@ export class MetaFormComponent implements OnInit, OnChanges, OnDestroy {
 
   valueChanges(event: any) {
     console.log(event);
+    if (!_.isEmpty(this.additionalMetaData) && this.showAppIcon) {
+      event = _.merge(this.additionalMetaData, event);
+    }
     this.toolbarEmitter.emit({ button: 'onFormValueChange', event });
     this.treeService.updateNode(event);
   }
+
+  additionalMetaDataHandler(event) {
+    if (event.type  === 'image') {
+      this.additionalMetaData = {
+        appIcon: event.url
+      };
+    }
+    this.treeService.updateAppIcon(event.url);
+  }
+
 
   showTimer(control, depends: FormControl[], formGroup: FormGroup, loading, loaded) {
     const oldValue = {};
