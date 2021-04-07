@@ -28,6 +28,7 @@ export class MetaFormComponent implements OnInit, OnChanges, OnDestroy {
   public showAppIcon = false;
   public appIconConfig: any;
   public appIcon: any;
+  public formEvent: any;
   constructor(private editorService: EditorService, private treeService: TreeService,
               private frameworkService: FrameworkService, private helperService: HelperService,
               private configService: ConfigService) {
@@ -233,6 +234,7 @@ export class MetaFormComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   valueChanges(event: any) {
+    this.formEvent = event;
     console.log(event);
     if (!_.isEmpty(this.appIcon) && this.showAppIcon) {
       event.appIcon = this.appIcon;
@@ -243,7 +245,11 @@ export class MetaFormComponent implements OnInit, OnChanges, OnDestroy {
 
   appIconDataHandler(event) {
     this.appIcon = event.url;
-    this.treeService.updateAppIcon(event.url);
+    if (this.formEvent) {
+      event = _.merge(this.formEvent, event);
+      event.appIcon = this.appIcon;
+    }
+    this.treeService.updateAppIcon(event);
   }
 
   showTimer(control, depends: FormControl[], formGroup: FormGroup, loading, loaded) {
