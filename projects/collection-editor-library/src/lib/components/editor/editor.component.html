@@ -70,7 +70,7 @@
                         class="sb-color-primary font-weight-bold cursor-pointer">Creative Commons Framework</a> in
                       accordance
                       with the <a class="sb-color-primary font-weight-bold cursor-pointer">Content Policy</a>. I
-                      have made sure that I do not violate other's copyright ir privacy rights."</div>
+                      have made sure that I do not violate other's copyright privacy rights."</div>
                   </label>
                 </div>
               </div>
@@ -82,6 +82,17 @@
               [telemetryInteractEdata]="telemetryService.getTelemetryInteractEdata('submit','click','submit', this.telemetryService.telemetryPageId,{key: 'dialog_id', value: 'accepting_terms_conditions','termAndConditions' : terms})">
               Submit
             </button>
+          </div>
+      </sui-modal>
+      <sui-modal *ngIf='showPreview' [mustScroll]="false" [isClosable]="true" [transitionDuration]="0" [size]="'large'"
+          class="sb-modal overflow-modal preview-modal" appBodyScroll (dismissed)="showPreview = !showPreview;" #modal>
+          <div class="sb-modal-header">
+            Question Set Preview
+          </div>
+          <div class="sb-modal-content">
+            <div class="sb-quml-player br-4 b-1-100">
+              <lib-quml-player [questionSetHierarchy]="collectionTreeNodes?.data" [questionIds]="questionIds"></lib-quml-player>
+            </div>
           </div>
       </sui-modal>
       <lib-template *ngIf='showQuestionTemplatePopup' [templateList]="templateList"
